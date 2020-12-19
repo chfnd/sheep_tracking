@@ -166,7 +166,10 @@ if __name__ == '__main__':
         deepsort = deepsort_rbc()
 
     frame_id = 1
-
+    
+    ### Ajout ligne 171
+    df = pd.DataFrame(columns=['Frame', 'ID', 'X1', 'Y1', 'X2', 'Y2'])
+    ### Fin Ajout
 
     # fourcc = cv2.VideoWriter_fourcc(*'XVID')
     # out = cv2.VideoWriter('ssd_out_3.avi',fourcc, 10.0, (1920,1080))
@@ -211,6 +214,10 @@ if __name__ == '__main__':
             bbox = track.to_tlbr() #Get the corrected/predicted bounding box
             id_num = str(track.track_id) #Get the ID for the particular track.
             features = track.features #Get the feature vector corresponding to the detection.
+            
+            ### Ajout ligne 219
+            df = df.append(pd.DataFrame([[frame_id, id_num, bbox[0], bbox[1], bbox[2], bbox[3]]], columns=['Frame', 'ID', 'X1', 'Y1', 'X2', 'Y2']))
+            ### Fin Ajout
 
             #Draw bbox from tracker.
             if args.draw_tracked_boxes:
@@ -225,7 +232,11 @@ if __name__ == '__main__':
 
         #cv2.imshow('frame',frame)
         out.write(frame)
-
+        
+        ### Ajout ligne 237
+        df.to_csv("playerPositions.csv", sep = ",")
+        ### Fin Ajout
+        
         frame_id+=1
 
     out.release()
