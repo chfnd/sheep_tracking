@@ -107,12 +107,12 @@ class VisualizationDemo(object):
                 if cnt >= buffer_size:
                     frame_id,frame = frame_data.popleft()
                     predictions = self.predictor.get()
-                    yield process_predictions((frame_id,frame),prediction)
+                    yield process_predictions((frame_id,frame),predictions)
 
             while len(frame_data):
                 frame_id,frame = frame_data.popleft()
                 predictions = self.predictor.get()
-                yield process_predictions((frame_id,frame),prediction)
+                yield process_predictions((frame_id,frame),predictions)
         else:
             for frame_id,frame in frame_gen:
                 yield process_predictions((frame_id,frame),self.predictor(frame))
